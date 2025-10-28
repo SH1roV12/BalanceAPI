@@ -2,7 +2,6 @@ package main
 
 import "users-balance/internal/app"
 
-
-func main(){
+func main() {
 	app.StartApp()
 }
