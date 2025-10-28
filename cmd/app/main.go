@@ -1,8 +1,8 @@
 package main
 
-import "users-balance/internal"
+import "users-balance/internal/app"
 
 
 func main(){
-	internal.StartApp()
+	app.StartApp()
 }

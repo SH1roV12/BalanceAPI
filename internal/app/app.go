@@ -1,4 +1,4 @@
-package internal
+package app
 
 import (
 	"users-balance/internal/database"
