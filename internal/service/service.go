@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"errors"
+	"users-balance/internal/errmsg"
 	"users-balance/internal/handlers/dto"
 	"users-balance/internal/models"
 	"users-balance/internal/repository"
@@ -34,7 +34,7 @@ func (s *UsersService) ReserveUserBalance(ctx context.Context, usr dto.ReserveUs
 
 func (s *UsersService) ReplenishmentOfBalance(ctx context.Context, usr dto.ReplenishmentOfBalance) (float64, error) {
 	if usr.Amount <= 0 {
-		return 0, errors.New("incorrect amount")
+		return 0, errmsg.ErrIncorrectAmount
 	}
 	balance, error := s.Repo.ReplenishmentOfBalance(ctx, usr.UserID, usr.Amount)
 	if error != nil {

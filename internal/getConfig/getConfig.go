@@ -7,9 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-
-
-func GetConfig()string{
+func GetConfig() string {
 	godotenv.Load()
 	user := os.Getenv("DB_USER")
 	pass := os.Getenv("DB_PASS")

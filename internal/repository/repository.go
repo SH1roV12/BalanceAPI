@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"users-balance/internal/errmsg"
 	"users-balance/internal/models"
 )
 
@@ -26,7 +27,7 @@ func (db *Repository) GetUserBalance(ctx context.Context, userId int) (float64, 
 	err := db.Database.QueryRowContext(ctx, query, userId).Scan(&balance, &reserved)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return 0, 0, errors.New("user not found")
+			return 0, 0, errmsg.ErrUserNotFound
 		}
 		return 0, 0, err
 	}
@@ -46,12 +47,12 @@ func (db *Repository) ReserveUserBalance(ctx context.Context, userId int, amount
 	err = tx.QueryRowContext(ctx, checkBalanceQuery, userId).Scan(&balanceNow, &reservedNow)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return 0, 0, errors.New("user not found")
+			return 0, 0, errmsg.ErrUserNotFound
 		}
 		return 0, 0, err
 	}
 	if balanceNow < amount {
-		return 0, 0, errors.New("not enough money")
+		return 0, 0, errmsg.ErrNotEnoughMoney
 	}
 	changeBalanceQuery := "UPDATE users SET balance = ?,reserved = ? WHERE id = ?"
 	_, err = tx.ExecContext(ctx, changeBalanceQuery, balanceNow-amount, reservedNow+amount, userId)

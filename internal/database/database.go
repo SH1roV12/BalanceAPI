@@ -9,7 +9,7 @@ import (
 )
 
 func InitDB() *sql.DB {
-	DSN:=getconfig.GetConfig()
+	DSN := getconfig.GetConfig()
 
 	db, err := sql.Open("mysql", DSN)
 	if err != nil {
