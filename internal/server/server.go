@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"users-balance/internal/handlers"
 
 	"github.com/gin-gonic/gin"
@@ -11,6 +12,7 @@ type Server struct {
 	Handler *handlers.Handler
 }
 
+//func for DI
 func NewServer(h *handlers.Handler) *Server {
 	return &Server{
 		Router:  gin.Default(),
@@ -18,19 +20,26 @@ func NewServer(h *handlers.Handler) *Server {
 	}
 }
 
+//Registration routes
 func (s *Server) Routes() {
-	s.Router.POST("/users/create", s.Handler.CreateUser)
-	s.Router.PUT("/users/reserve", s.Handler.ReserveUserBalance)
-	s.Router.GET("/balance", s.Handler.GetUserBalance)
-	s.Router.PUT("/balance", s.Handler.ReplenishmentOfBalance)
 
+	s.Router.POST("/users/create", s.Handler.CreateUser)
+
+	s.Router.PUT("/users/reserve", s.Handler.ReserveUserBalance)
+
+	s.Router.GET("/balance", s.Handler.GetUserBalance)
+
+	s.Router.PUT("/balance", s.Handler.ReplenishmentOfBalance)
 }
 
-func (s *Server) RunServer(port string) error {
+//Starting server
+func (s *Server) RunServer(port string){
+	log.Println("Starting httpserver...")
 	s.Routes()
 	err := s.Router.Run(port)
 	if err != nil {
-		return err
+		log.Fatalln("Failed to starting server")
 	}
-	return nil
+	log.Println("Http server is running")
+	
 }

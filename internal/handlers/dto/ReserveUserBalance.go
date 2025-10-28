@@ -1,5 +1,6 @@
 package dto
 
+//DTO for ReserveUserBalance method
 type ReserveUserBalance struct {
 	UserId    int     `json:"user_id" binding:"required,min=1"`
 	Amount    float64 `json:"amount" binding:"required,min=1"`
